@@ -12,3 +12,16 @@ jobs:
       run: docker build -t trantbatey/docker-react -f Dockerfile.dev .
     - name: run docker test
       run: docker run -e CI=true trantbatey/docker-react npm run test
+
+# .github/workflows/heroku-deploy.yml
+  heroku-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
