@@ -9,7 +9,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code>
         </p>
-        <h1>Bye There</h1>
+        <h1>I was changed on the feature branch.</h1>
         <a
           className="App-link"
           href="https://reactjs.org"
