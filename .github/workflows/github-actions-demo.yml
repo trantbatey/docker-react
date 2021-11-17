@@ -9,9 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: build docker image
-      run: docker build -t trantbatey/docker-react -f Dockerfile.dev .
+      run: docker build -t trantbatey/docker-react-test -f Dockerfile.dev .
     - name: run docker test
-      run: docker run -e CI=true trantbatey/docker-react npm run test
+      run: docker run -e CI=true trantbatey/docker-react-test npm run test
 
 # .github/workflows/heroku-deploy.yml
   heroku-deploy:
@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
+      - name: build docker image
+        run: docker build -t trantbatey/docker-react .
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
