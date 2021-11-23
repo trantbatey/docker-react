@@ -4,17 +4,18 @@ on:
     branches: [ master ]
     
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: build docker image
-      run: docker build -t trantbatey/docker-react -f Dockerfile.dev .
+      run: docker build -t trantbatey/docker-react-test -f Dockerfile.dev .
     - name: run docker test
-      run: docker run -e CI=true trantbatey/docker-react npm run test
+      run: docker run -e CI=true trantbatey/docker-react-test npm run test
 
 # .github/workflows/heroku-deploy.yml
   heroku-deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
