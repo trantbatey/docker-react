@@ -1,7 +1,7 @@
 name: docker-react
 on:
   push:
-    branches: [ master ]
+    branches: [ aws-deploy ]
     
 jobs:
   test:
@@ -14,15 +14,26 @@ jobs:
       run: docker run -e CI=true trantbatey/docker-react-test npm run test
 
 # .github/workflows/heroku-deploy.yml
-  heroku-deploy:
+  aws-deploy:
     needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
+    name: Deploy
+      runs-on: ubuntu-latest
+
+      steps:
+
+      - name: Checkout source code
         uses: actions/checkout@v2
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
         with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: docker-react
+          environment_name: Dockerreact-env
+          version_label: 1
+          region: us-east-2
+          deployment_package: deploy.zip
