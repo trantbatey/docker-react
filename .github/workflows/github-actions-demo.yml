@@ -13,13 +13,11 @@ jobs:
     - name: run docker test
       run: docker run -e CI=true trantbatey/docker-react-test npm run test
 
-# .github/workflows/heroku-deploy.yml
+# .github/workflows/aws-deploy.yml
   aws-deploy:
     needs: test
-    name: Deploy
-      runs-on: ubuntu-latest
-
-      steps:
+    runs-on: ubuntu-latest
+    steps:
 
       - name: Checkout source code
         uses: actions/checkout@v2
