@@ -34,4 +34,5 @@ jobs:
           environment_name: Dockerreact-env
           version_label: 1.05
           region: us-east-2
+          use_existing_version_if_available: true
           deployment_package: deploy.zip
